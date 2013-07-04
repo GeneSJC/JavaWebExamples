@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Demo</title>
+</head>
+<body>
+	
+	
+	<!-- This is a demo of using jQuery for event driven data capturing on forms, in a straightforward way that keeps the HTML and Javascript functionally separate (I think this is encapsulation?) and eliminates the need for any more libraries. -->
+	
+	<!-- We use classes (instead of IDs) for displaying the contents of inputs so that the potential is there to display the same values in multiple places without additional code. Ex: show socket id in two paragraphs, but update once in both places. -->
+	<!-- We don't use name attributes here because of the discussion we had (Gene) but also because the name attribute was designed to be the name of the key when the key value pair is submitted to the server. IDs and Classes were made to uniquely identify 
+		elements or groups of elements, respectively, in a common way across CSS and jQuery. -->
+	
+	<label for="socket_id">Socket ID:</label>
+	<input type="text" value="42" id="socket_id" >
+	
+	<label for="socket_port">Socket Port:</label>
+	<input type="text" value="2020" id="socket_port" name="socket_port">
+	
+	<p>Current ID: <span class="socket_id_contents">42</span></p>
+	<p>Current Port: <span class="socket_port_contents">2020</span></p>
+	
+	
+	<script src="js/jquery.1.8.2.min.js"></script>
+	<script type="text/javascript"><!--
+		
+		
+	$(function()
+	{ // equivalent to document.ready() but faster
+
+		// I wrote this to be simple here, but it could be extended to work on every field on a form in a general way without writing lines of code for every input. 
+		// For example, instead of capturing input events on an ID'ed element, instead capture input events on every input and handle them all in a generic way.
+
+		$('input').on("blur",function(){
+			
+			var currentId = $(this).attr('id');
+		    var inputId = '#' + currentId;
+		    var contentsId = '.' + currentId + '_contents';
+		    
+			// alert('currentId = ' + currentId + ', inputId=' + inputId + ', contentsId = ' + contentsId);
+
+			$(contentsId).html($(inputId).val());
+		    							
+		});
+		
+
+	});
+--></script>
+	
+</body>
+</html>

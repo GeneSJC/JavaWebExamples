@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>SimpleServlet</display-name>
+
+
+	<servlet>
+		<description></description>
+		<display-name>Hello World Demo</display-name>
+		<servlet-name>HelloWorldServlet</servlet-name>
+		<servlet-class>com.demo.servlet.HelloWorldServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HelloWorldServlet</servlet-name>
+		<url-pattern>/HelloWorld</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<description></description>
+		<display-name>Velocity Demo</display-name>
+		<servlet-name>VelocityDemoServlet</servlet-name>
+		<servlet-class>com.demo.servlet.VelocityDemoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VelocityDemoServlet</servlet-name>
+		<url-pattern>/VelocityDemo</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Servlet provided by Velocity .jar -->
+	<servlet>
+		<servlet-name>velocity</servlet-name>
+		<servlet-class>org.apache.velocity.tools.view.servlet.VelocityViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>velocity</servlet-name>
+		<url-pattern>*.vm</url-pattern>
+	</servlet-mapping>
+
+
+	<!--  For AJAX Demo -->
+	<servlet>
+		<description></description>
+		<display-name>StudentInfo</display-name>
+		<servlet-name>StudentInfoAjaxDemoServlet</servlet-name>
+		<servlet-class>com.demo.servlet.StudentInfoAjaxDemoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StudentInfoAjaxDemoServlet</servlet-name>
+		<url-pattern>/StudentInfo</url-pattern>
+	</servlet-mapping>
+</web-app>
