@@ -3,8 +3,8 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
-	<display-name>SimpleServlet</display-name>
 
+	<display-name>JavaWebExamples Web App</display-name>
 
 	<servlet>
 		<description></description>
@@ -41,7 +41,7 @@
 	</servlet-mapping>
 
 
-	<!--  For AJAX Demo -->
+	<!-- For AJAX Demo -->
 	<servlet>
 		<description></description>
 		<display-name>StudentInfo</display-name>

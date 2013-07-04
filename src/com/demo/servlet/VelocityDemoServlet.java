@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.velocity.app.Velocity;
 import org.jdom.Document;
 import org.jdom.input.SAXBuilder;
 
@@ -57,7 +59,7 @@ public class VelocityDemoServlet extends HttpServlet {
 
 			// get UI
 			RequestDispatcher requestDispatcher = request
-					.getRequestDispatcher("index.vm");
+					.getRequestDispatcher("/velocity_templates/index.vm");
 			requestDispatcher.forward(request, response);
 		} catch (Exception ex) {
 			System.out.println(ex);

@@ -1,84 +1,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Binod Java Solution AJAX</title>
 
-<script language="javascript">
-      
-       var MAX_DUMP_DEPTH = 10;
-      
-       function dumpObj(obj, name, indent, depth) {
-              if (depth > MAX_DUMP_DEPTH) {
-                     return indent + name + ": <Maximum Depth Reached>\n";
-              }
-              if (typeof obj == "object") {
-                     var child = null;
-                     var output = indent + name + "\n";
-                     indent += "\t";
-                     for (var item in obj)
-                     {
-                           try {
-                                  child = obj[item];
-                           } catch (e) {
-                                  child = "<Unable to Evaluate>";
-                           }
-                           if (typeof child == "object") {
-                                  output += dumpObj(child, item, indent, depth + 1);
-                           } else {
-                                  output += indent + item + ": " + child + "\n";
-                           }
-                     }
-                     return output;
-              } else {
-                     return obj;
-              }
-       }
-      
-</script>
-
+<script type="text/javascript" src='./js/ajax_util.js'  ></script>
 
 <script type="text/javascript">
-	var request;
-	function getName() {
+
+	var baseurl = "http://localhost:8080/JavaWebExamples/StudentInfo?roll=";
+
+	function getName()
+	{
 		var roll = document.getElementById("roll").value;
-		var url = "http://localhost:8080/JavaWebExamples/StudentInfo?roll=" + roll;
-		if (window.ActiveXObject) {
-			request = new ActiveXObject("Microsoft.XMLHTTP");
-		} else if (window.XMLHttpRequest) {
-			request = new XMLHttpRequest();
-		}
-		request.onreadystatechange = showResult;
-		request.open("POST", url, true);
-		request.send();
+		var url = baseurl+ roll;
+		
+		doAjaxRequest(url, showResult);
 	}
-	function showResult() {
-		if (request.readyState == 4) {
-			var response = request.responseXML;
-			
-			var students = response.getElementsByTagName("Student");
-			var student = students[0];
-			/* 
-			
-			var object = student.getElementsByTagName("Name")[0].textContent;
-			// alert (object);
-			
-			var output = '';
-			for (property in object) {
-			  output += property + ': ' + object[property]+'; ';
-			} 
-			alert('z: ' + object);
+	
+	function showResult() 
+	{
+		var response = getAjaxResponse();
+		if (response == null)
 			return;
-			alert(object);
-			
-			 */
-			
-			document.getElementById("NamelH1").innerHTML = student
-					.getElementsByTagName("Name")[0].textContent;
-			document.getElementById("HostelH1").innerHTML = student
-					.getElementsByTagName("Hostel")[0].textContent;
-			document.getElementById("ContactH1").innerHTML = student
-					.getElementsByTagName("Contact")[0].textContent;
-		}
+		
+		var students = response.getElementsByTagName("Student");
+		var student = students[0];
+
+		document.getElementById("NamelH1").innerHTML = student
+				.getElementsByTagName("Name")[0].textContent;
+		document.getElementById("HostelH1").innerHTML = student
+				.getElementsByTagName("Hostel")[0].textContent;
+		document.getElementById("ContactH1").innerHTML = student
+				.getElementsByTagName("Contact")[0].textContent;
 	}
 </script>
 </head>
