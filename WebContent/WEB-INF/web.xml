@@ -52,4 +52,15 @@
 		<servlet-name>StudentInfoAjaxDemoServlet</servlet-name>
 		<url-pattern>/StudentInfo</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<description></description>
+		<display-name>JavaDate</display-name>
+		<servlet-name>JavaDateServlet</servlet-name>
+		<servlet-class>com.demo.servlet.JavaDateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JavaDateServlet</servlet-name>
+		<url-pattern>/JavaDate</url-pattern>
+	</servlet-mapping>
 </web-app>

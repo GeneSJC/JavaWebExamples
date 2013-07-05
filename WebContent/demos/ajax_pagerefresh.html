@@ -1,98 +1,73 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Binod Java Solution AJAX</title>
 
-<script language="javascript">
-      
-       var MAX_DUMP_DEPTH = 10;
-      
-       function dumpObj(obj, name, indent, depth) {
-              if (depth > MAX_DUMP_DEPTH) {
-                     return indent + name + ": <Maximum Depth Reached>\n";
-              }
-              if (typeof obj == "object") {
-                     var child = null;
-                     var output = indent + name + "\n";
-                     indent += "\t";
-                     for (var item in obj)
-                     {
-                           try {
-                                  child = obj[item];
-                           } catch (e) {
-                                  child = "<Unable to Evaluate>";
-                           }
-                           if (typeof child == "object") {
-                                  output += dumpObj(child, item, indent, depth + 1);
-                           } else {
-                                  output += indent + item + ": " + child + "\n";
-                           }
-                     }
-                     return output;
-              } else {
-                     return obj;
-              }
-       }
-      
-</script>
-
+<script type="text/javascript" src='../js/ajax_util.js'  ></script>
 
 <script type="text/javascript">
-	var request;
-	function getName() {
-		var roll = document.getElementById("roll").value;
-		var url = "http://localhost:8080/JavaWebExamples/StudentInfo?roll=" + roll;
-		if (window.ActiveXObject) {
-			request = new ActiveXObject("Microsoft.XMLHTTP");
-		} else if (window.XMLHttpRequest) {
-			request = new XMLHttpRequest();
-		}
-		request.onreadystatechange = showResult;
-		request.open("POST", url, true);
-		request.send();
+
+	var pageRefreshMilliseconds = 2 * 1000; // 2 seconds
+	
+	setInterval(loadJavaTime, (pageRefreshMilliseconds));
+
+	function loadJavaTime()
+	{
+		var baseurl = "http://localhost:8080/JavaWebExamples/JavaDate";
+		
+		doAjaxRequest(baseurl, showResult);
 	}
-	function showResult() {
-		if (request.readyState == 4) {
-			var response = request.responseXML;
-			
-			var students = response.getElementsByTagName("Student");
-			var student = students[0];
-			/* 
-			
-			var object = student.getElementsByTagName("Name")[0].textContent;
-			// alert (object);
-			
-			var output = '';
-			for (property in object) {
-			  output += property + ': ' + object[property]+'; ';
-			} 
-			alert('z: ' + object);
+	
+	function showResult() 
+	{
+		var response = getAjaxResponse();
+		
+		// alert ('showResult gets response = ' + response);
+		
+		if (response == null)
 			return;
-			alert(object);
-			
-			 */
-			
-			document.getElementById("NamelH1").innerHTML = student
-					.getElementsByTagName("Name")[0].textContent;
-			document.getElementById("HostelH1").innerHTML = student
-					.getElementsByTagName("Hostel")[0].textContent;
-			document.getElementById("ContactH1").innerHTML = student
-					.getElementsByTagName("Contact")[0].textContent;
-		}
+		
+		processJavaDateXml(response);
+	}
+	
+	function processJavaDateXml(response)
+	{
+		// alert ('enter processJavaDateXml');
+		
+			// get data from xml
+		var javaDateArr = response.getElementsByTagName("JavaDate");
+		var javaDateXml = javaDateArr[0];
+		
+
+			// get xml, corresponding page element, and update
+		var longXmlBlock = javaDateXml.getElementsByTagName("long")[0];
+		var timeLongSpanTag = document.getElementById("time_long_span");
+		timeLongSpanTag.innerHTML = longXmlBlock.textContent;
+		
+			// get xml, corresponding page element, and update
+		var textXmlBlock = javaDateXml.getElementsByTagName("text")[0];
+		var timeTextSpanTag = document.getElementById("time_text_span");
+		timeTextSpanTag.innerHTML = textXmlBlock.textContent;
 	}
 </script>
 </head>
-<body>
-	<h2>GET STUDENT INFO</h2>
-	<br> Enter Roll Number
-	<input type="text" id="roll">
-	<input type="button" value="Get Name" onclick="getName();" />
-	<br> Name :
-	<span id="NamelH1"></span>
-	<br> Hostel :
-	<span id="HostelH1"></span>
-	<br> Contact :
-	<span id="ContactH1"></span>
-	<br>
+<body >
+
+	<script type="text/javascript">
+	
+	var note1 = 'Page will Ajax-refresh every ' + pageRefreshMilliseconds/1000 + ' seconds ';
+	document.write(note1);
+	</script>
+
+
+	<br/>
+	<br/>
+	<input style='font-size: 1em'  type="button" value="Manual Update" onclick="loadJavaTime();" />
+	
+	<h2>Current Time</h2>
+	time as long: <span id="time_long_span"></span>
+	<br/>
+	time as text: <span id="time_text_span"></span>
+	
+	
 </body>
 </html>
