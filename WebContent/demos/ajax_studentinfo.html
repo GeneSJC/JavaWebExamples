@@ -22,6 +22,11 @@
 		if (response == null)
 			return;
 		
+		processStudentData(response);
+	}
+	
+	function processStudentData(response)
+	{
 		var students = response.getElementsByTagName("Student");
 		var student = students[0];
 
