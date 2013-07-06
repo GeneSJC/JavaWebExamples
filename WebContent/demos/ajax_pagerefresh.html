@@ -59,9 +59,16 @@
 		{
 			statusMsg = VALID_SESSION;
 		}
+
+	/* 
+	 */	
+		var lastPingText = $.session(TIME_STRING_KEY);
+		if (lastPingText == null)
+		{
+			lastPingText = 'never pinged';
+		}
 		
-		// alert ('statusMsg = ' + statusMsg);
-		
+		statusMsg += "<br/>Last ping was at: " + lastPingText;
 		sessionStatusTag.innerHTML = statusMsg;
 	}
 	
@@ -69,6 +76,8 @@
 	var INVALID_SESSION = "<b style='color: red'>INVALID SESSION</b>";
 	
 	var PING_TIME_KEY = 'PING_TIME';
+	var TIME_STRING_KEY = 'TIME_STRING';
+	
 	var SESSION_TIMEOUT_MILLISECONDS = 1000 * 10;
 	
 	function pingSession()
@@ -76,8 +85,21 @@
 		var d = new Date();
 		var pingTime =d.getTime();
 		
+
+			// set the pingTime to check for session time out later
 		$(function() {
 		       $.session(PING_TIME_KEY, pingTime);
+		  });
+			
+		var timeTextSpanTag = document.getElementById("time_text_span");
+		/*
+		var timeTextSpanTag = $( "#time_text_span").val();
+			alert ('timeTextSpanTag = ' + timeTextSpanTag);
+		    
+		*/
+			// set the display text for most recent ping
+		$(function() {
+		       $.session(TIME_STRING_KEY, timeTextSpanTag.innerHTML);
 		  });
 	}
 
@@ -110,6 +132,11 @@
 	
 	var note1 = 'Page will Ajax-refresh every ' + pageRefreshMilliseconds/1000 + ' seconds ';
 	document.write(note1);
+	
+	document.write("<br/>\n");
+	
+	var note2 = 'Session expires every ' + SESSION_TIMEOUT_MILLISECONDS/1000 + ' seconds ';
+	document.write(note2);
 	</script>
 
 
