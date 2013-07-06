@@ -2,10 +2,15 @@
 <html>
 <head>
 
+<script src="../js/jquery/jquery.1.8.2.min.js"></script>
+<script src="../js/jquery/jquery.json.js"></script>
+<script src="../js/jquery/jquery.session.js"></script>
+
 <script type="text/javascript" src='../js/ajax_util.js'  ></script>
 
 <script type="text/javascript">
 
+	
 	var pageRefreshMilliseconds = 2 * 1000; // 2 seconds
 	
 	setInterval(loadJavaTime, (pageRefreshMilliseconds));
@@ -47,7 +52,56 @@
 		var textXmlBlock = javaDateXml.getElementsByTagName("text")[0];
 		var timeTextSpanTag = document.getElementById("time_text_span");
 		timeTextSpanTag.innerHTML = textXmlBlock.textContent;
+		
+		var sessionStatusTag = document.getElementById("session_status");
+		var statusMsg = INVALID_SESSION;
+		if ( isValidSession())
+		{
+			statusMsg = VALID_SESSION;
+		}
+		
+		// alert ('statusMsg = ' + statusMsg);
+		
+		sessionStatusTag.innerHTML = statusMsg;
 	}
+	
+	var VALID_SESSION = "<b style='color: green'>SESSION IS VALID</b>";
+	var INVALID_SESSION = "<b style='color: red'>INVALID SESSION</b>";
+	
+	var PING_TIME_KEY = 'PING_TIME';
+	var SESSION_TIMEOUT_MILLISECONDS = 1000 * 10;
+	
+	function pingSession()
+	{
+		var d = new Date();
+		var pingTime =d.getTime();
+		
+		$(function() {
+		       $.session(PING_TIME_KEY, pingTime);
+		  });
+	}
+
+	function isValidSession()
+	{
+		var d = new Date();
+		var curTime =d.getTime();
+		
+		var lastPing = $.session(PING_TIME_KEY);
+		if (lastPing == null)
+		{
+			return false;
+		}
+	
+		var lastPingDelta = curTime - lastPing;
+		
+		if ( lastPingDelta < SESSION_TIMEOUT_MILLISECONDS)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 </script>
 </head>
 <body >
@@ -67,6 +121,13 @@
 	time as long: <span id="time_long_span"></span>
 	<br/>
 	time as text: <span id="time_text_span"></span>
+	
+	<br/>
+	<br/>
+	<input style='font-size: 1em'  type="button" value="Session Ping" onclick="pingSession();" />
+	<br/>
+	<br/>
+	session status: <span id="session_status"></span>
 	
 	
 </body>
